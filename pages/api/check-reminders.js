@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   const today = new Date().toISOString().split('T')[0]
 
   const { data: clients, error } = await supabase
-    .from('clients')
+    .from('suivi_clients')
     .select('*')
     .or(`date_rappel_1.eq.${today},date_rappel_2.eq.${today}`)
     .eq('statut', 'en cours')

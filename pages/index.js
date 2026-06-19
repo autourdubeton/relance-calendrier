@@ -26,7 +26,7 @@ export default function Home() {
   async function fetchClients() {
     setLoading(true)
     const { data } = await supabase
-      .from('clients')
+      .from('suivi_clients')
       .select('*')
       .order('created_at', { ascending: false })
     setClients(data || [])
@@ -42,10 +42,10 @@ export default function Home() {
     )
 
     if (editingId) {
-      await supabase.from('clients').update(payload).eq('id', editingId)
+      await supabase.from('suivi_clients').update(payload).eq('id', editingId)
       setEditingId(null)
     } else {
-      await supabase.from('clients').insert([payload])
+      await supabase.from('suivi_clients').insert([payload])
     }
 
     setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' })
@@ -70,7 +70,7 @@ export default function Home() {
 
   async function deleteClient(id) {
     if (!confirm('Supprimer ce client ?')) return
-    await supabase.from('clients').delete().eq('id', id)
+    await supabase.from('suivi_clients').delete().eq('id', id)
     fetchClients()
   }
 
