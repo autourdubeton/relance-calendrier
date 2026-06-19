@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     .from('suivi_clients')
     .select('*')
     .or(`date_rappel_1.eq.${today},date_rappel_2.eq.${today}`)
-    .eq('statut', 'en cours')
+    .eq('statut', 'en attente')
 
   if (error) {
     console.error('Supabase error complet:', JSON.stringify(error))
