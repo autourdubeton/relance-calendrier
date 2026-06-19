@@ -76,11 +76,9 @@ export default function Home() {
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
-      <div style={{ background: '#1a2b5e', padding: '0.5rem 3rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', overflow: 'visible' }}>
+      <div style={{ background: '#1a2b5e', padding: '0.5rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', overflow: 'visible', position: 'relative' }}>
         <img src="/logo-rond.png" alt="ATDB" style={{ height: 100, width: 100, objectFit: 'contain', marginTop: -15, marginBottom: -15 }} />
-      </div>
-      <div style={{ padding: '0 3rem', marginBottom: '1.5rem' }}>
-        <h1 style={{ textAlign: 'center', color: '#1a2b5e', fontSize: '2rem', fontWeight: 700, margin: 0 }}>Suivi Livraison</h1>
+        <h1 style={{ position: 'absolute', left: 0, right: 0, textAlign: 'center', color: '#f5c400', fontSize: '2rem', fontWeight: 700, margin: 0, pointerEvents: 'none' }}>Suivi Livraison</h1>
       </div>
 
       <div style={{ padding: '0 3rem 3rem' }}>
