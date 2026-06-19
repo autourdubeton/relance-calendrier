@@ -73,7 +73,7 @@ export default function Calendrier() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
           <button onClick={() => setSemaine(addDays(semaine, -7))} style={btnNav}>← Semaine précédente</button>
           <div style={{ textAlign: 'center' }}>
-            <span style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1a2b5e' }}>
+            <span style={{ fontWeight: 700, fontSize: '1.6rem', color: '#1a2b5e' }}>
               Semaine du {addDays(semaine, 0).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
               {' '}au {addDays(semaine, 6).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
             </span>
