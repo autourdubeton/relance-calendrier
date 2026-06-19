@@ -76,8 +76,8 @@ export default function Home() {
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
-      <div style={{ background: '#1a2b5e', padding: '1rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <img src="/logo-rond.png" alt="ATDB" style={{ height: 110 }} />
+      <div style={{ background: '#1a2b5e', padding: '0.5rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', overflow: 'visible' }}>
+        <img src="/logo-rond.png" alt="ATDB" style={{ height: 100, width: 100, objectFit: 'contain', marginTop: -15, marginBottom: -15 }} />
         <span style={{ color: '#f5c400', fontSize: '1.5rem', fontWeight: 700, letterSpacing: 1 }}>Suivi Clients</span>
       </div>
 
