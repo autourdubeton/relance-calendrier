@@ -173,8 +173,8 @@ export default function Home() {
                   </span>
                 </td>
                 <td style={td}>
-                  <button onClick={() => startEdit(c)} style={btnEdit}>Modifier</button>
-                  <button onClick={() => deleteClient(c.id)} style={btnDelete}>Supprimer</button>
+                  <button onClick={() => startEdit(c)} style={btnEdit} title="Modifier">✏️</button>
+                  <button onClick={() => deleteClient(c.id)} style={btnDelete} title="Supprimer">🗑️</button>
                 </td>
               </tr>
             ))}
