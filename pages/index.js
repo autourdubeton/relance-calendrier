@@ -8,6 +8,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState({
     sujet: '',
+    email_client: '',
     date_debut: '',
     date_promise: '',
     date_rappel_1: '',
@@ -47,7 +48,7 @@ export default function Home() {
       await supabase.from('clients').insert([payload])
     }
 
-    setForm({ sujet: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' })
+    setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' })
     setSaving(false)
     fetchClients()
   }
@@ -56,6 +57,7 @@ export default function Home() {
     setEditingId(client.id)
     setForm({
       sujet: client.sujet || '',
+      email_client: client.email_client || '',
       date_debut: client.date_debut || '',
       date_promise: client.date_promise || '',
       date_rappel_1: client.date_rappel_1 || '',
@@ -83,6 +85,12 @@ export default function Home() {
           <div style={{ gridColumn: '1 / -1' }}>
             <label>Sujet *</label><br />
             <input required value={form.sujet} onChange={e => setForm({ ...form, sujet: e.target.value })}
+              style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
+          </div>
+          <div style={{ gridColumn: '1 / -1' }}>
+            <label>Email client <span style={{ color: '#999', fontWeight: 'normal', fontSize: '0.85rem' }}>(les rappels seront envoyés à cette adresse)</span></label><br />
+            <input type="email" value={form.email_client} onChange={e => setForm({ ...form, email_client: e.target.value })}
+              placeholder="client@exemple.com"
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div>
@@ -125,7 +133,7 @@ export default function Home() {
             {saving ? 'Enregistrement...' : editingId ? 'Mettre à jour' : 'Ajouter'}
           </button>
           {editingId && (
-            <button type="button" onClick={() => { setEditingId(null); setForm({ sujet: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' }) }}
+            <button type="button" onClick={() => { setEditingId(null); setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' }) }}
               style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: 4, cursor: 'pointer' }}>
               Annuler
             </button>
@@ -138,6 +146,7 @@ export default function Home() {
           <thead>
             <tr style={{ background: '#1a1a1a', color: '#fff' }}>
               <th style={th}>Sujet</th>
+              <th style={th}>Email client</th>
               <th style={th}>Début</th>
               <th style={th}>Date promise</th>
               <th style={th}>Rappel 1</th>
@@ -153,6 +162,7 @@ export default function Home() {
             {clients.map((c, i) => (
               <tr key={c.id} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
                 <td style={td}>{c.sujet}</td>
+                <td style={td}>{c.email_client || <span style={{ color: '#bbb' }}>—</span>}</td>
                 <td style={td}>{formatDate(c.date_debut)}</td>
                 <td style={td}>{formatDate(c.date_promise)}</td>
                 <td style={td}>{formatDate(c.date_rappel_1)}</td>

@@ -3,7 +3,16 @@
     "allow": [
       "Bash(git init *)",
       "Bash(git remote *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(gh auth *)",
+      "Bash(find /Users/garancepeuvrel -name \"rapports.html\" 2>/dev/null | head -5)",
+      "Bash(curl -s https://api.github.com/repos/autourdubeton/atdb-app/contents/)",
+      "Bash(npm install *)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/garancepeuvrel/.nvm/**)"
     ]
   }
 }

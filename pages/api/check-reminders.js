@@ -1,20 +1,30 @@
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-)
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import nodemailer from 'nodemailer'
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
+    },
+  })
+
+  if (req.method !== 'POST' && req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const secret = req.headers['x-cron-secret']
-  if (secret !== process.env.CRON_SECRET) {
+  // Vercel Cron envoie l'Authorization header, appels manuels utilisent x-cron-secret
+  const authHeader = req.headers['authorization']
+  const cronSecret = req.headers['x-cron-secret']
+  const isVercelCron = authHeader === `Bearer ${process.env.CRON_SECRET}`
+  const isManual = cronSecret === process.env.CRON_SECRET
+
+  if (!isVercelCron && !isManual) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
@@ -32,31 +42,61 @@ export default async function handler(req, res) {
   }
 
   if (!clients || clients.length === 0) {
-    return res.status(200).json({ message: 'Aucun rappel aujourd\'hui', sent: 0 })
+    return res.status(200).json({ message: "Aucun rappel aujourd'hui", sent: 0 })
   }
 
   let sent = 0
+  const errors = []
 
   for (const client of clients) {
     const rappelNum = client.date_rappel_1 === today ? 1 : 2
+    const destinataire = client.email_client || process.env.ADMIN_EMAIL
 
-    await resend.emails.send({
-      from: 'noreply@autourdubeton.com',
-      to: 'anthony@autourdubeton.com',
-      subject: `Rappel ${rappelNum} — ${client.sujet}`,
-      html: `
-        <h2>Rappel client — Autour du Béton</h2>
-        <p><strong>Sujet :</strong> ${client.sujet}</p>
-        <p><strong>Date de début :</strong> ${client.date_debut || '—'}</p>
-        <p><strong>Date promise :</strong> ${client.date_promise || '—'}</p>
-        ${client.notes ? `<p><strong>Notes :</strong> ${client.notes}</p>` : ''}
-        <hr>
-        <p style="color: #666; font-size: 12px;">Rappel automatique n°${rappelNum} envoyé le ${today}</p>
-      `
-    })
-
-    sent++
+    try {
+      await transporter.sendMail({
+        from: `Autour du Béton <${process.env.GMAIL_USER}>`,
+        to: destinataire,
+        replyTo: process.env.ADMIN_EMAIL,
+        subject: `Rappel — ${client.sujet}`,
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; color: #333;">
+            <div style="border-bottom: 3px solid #1a1a1a; padding-bottom: 1rem; margin-bottom: 2rem;">
+              <h1 style="margin: 0; font-size: 1.4rem;">Autour du Béton</h1>
+            </div>
+            <p>Bonjour,</p>
+            <p>Nous revenons vers vous concernant le dossier suivant :</p>
+            <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+              <p style="margin: 0 0 0.5rem;"><strong>Sujet :</strong> ${client.sujet}</p>
+              ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Date de début :</strong> ${formatDate(client.date_debut)}</p>` : ''}
+              ${client.date_promise ? `<p style="margin: 0 0 0.5rem;"><strong>Date promise :</strong> ${formatDate(client.date_promise)}</p>` : ''}
+              ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes :</strong> ${client.notes}</p>` : ''}
+            </div>
+            <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+            <p>Cordialement,<br><strong>L'équipe Autour du Béton</strong></p>
+            <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 0.75rem;">Rappel automatique n°${rappelNum} — ${today}</p>
+          </body>
+          </html>
+        `
+      })
+      sent++
+    } catch (err) {
+      console.error(`Erreur envoi pour ${client.sujet}:`, err)
+      errors.push({ sujet: client.sujet, error: err.message })
+    }
   }
 
-  return res.status(200).json({ message: `${sent} rappel(s) envoyé(s)`, sent })
+  return res.status(200).json({
+    message: `${sent} rappel(s) envoyé(s)`,
+    sent,
+    errors: errors.length > 0 ? errors : undefined
+  })
+}
+
+function formatDate(d) {
+  if (!d) return ''
+  const [y, m, j] = d.split('-')
+  return `${j}/${m}/${y}`
 }
