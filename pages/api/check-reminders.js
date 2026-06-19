@@ -37,8 +37,9 @@ export default async function handler(req, res) {
     .eq('statut', 'en cours')
 
   if (error) {
-    console.error('Supabase error:', error)
-    return res.status(500).json({ error: error.message })
+    console.error('Supabase error complet:', JSON.stringify(error))
+    console.error('URL Supabase:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+    return res.status(500).json({ error: error.message, details: JSON.stringify(error) })
   }
 
   if (!clients || clients.length === 0) {
