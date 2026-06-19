@@ -88,7 +88,7 @@ export default function Contacts() {
     if (!email) return { label: 'Aucun dossier', color: '#999' }
     const ds = dossiers.filter(d => d.email_client?.toLowerCase() === email.toLowerCase())
     if (ds.length === 0) return { label: 'Aucun dossier', color: '#999' }
-    const enCours = ds.filter(d => d.statut === 'en cours')
+    const enCours = ds.filter(d => d.statut === 'en attente')
     if (enCours.length > 0) return { label: `${enCours.length} dossier(s) en cours`, color: '#155724' }
     const derniere = derniereDernierActivite(email)
     if (derniere) return { label: `Inactif depuis le ${derniere}`, color: '#856404' }
@@ -243,7 +243,7 @@ export default function Contacts() {
                       <td style={td}>{formatDate(d.date_rappel_1)}</td>
                       <td style={td}>{formatDate(d.date_rappel_2)}</td>
                       <td style={td}>
-                        <span style={{ padding: '2px 8px', borderRadius: 12, fontSize: '0.8rem', background: d.statut === 'terminé' ? '#d4edda' : d.statut === 'annulé' ? '#f8d7da' : '#fff3cd' }}>
+                        <span style={{ padding: '2px 8px', borderRadius: 12, fontSize: '0.8rem', background: d.statut === 'livré' ? '#d4edda' : d.statut === 'annulé' ? '#f8d7da' : '#fff3cd' }}>
                           {d.statut}
                         </span>
                       </td>

@@ -19,7 +19,7 @@ export default function Archives() {
     const { data } = await supabase
       .from('suivi_clients')
       .select('*')
-      .eq('statut', 'terminé')
+      .eq('statut', 'livré')
       .order('created_at', { ascending: false })
     setArchives(data || [])
     setLoading(false)
@@ -35,7 +35,7 @@ export default function Archives() {
       date_rappel_1: client.date_rappel_1 || '',
       date_rappel_2: client.date_rappel_2 || '',
       notes: client.notes || '',
-      statut: client.statut || 'terminé'
+      statut: client.statut || 'livré'
     })
   }
 
@@ -51,7 +51,7 @@ export default function Archives() {
   }
 
   async function restaurer(id) {
-    await supabase.from('suivi_clients').update({ statut: 'en cours' }).eq('id', id)
+    await supabase.from('suivi_clients').update({ statut: 'en attente' }).eq('id', id)
     fetchArchives()
   }
 

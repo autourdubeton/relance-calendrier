@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
 
 const TYPE_COLORS = {
-  date_debut:    { bg: '#dbeafe', border: '#3b82f6', label: 'Début' },
-  date_promise:  { bg: '#fef9c3', border: '#f5c400', label: 'Promis' },
+  date_debut:    { bg: '#dbeafe', border: '#3b82f6', label: 'Commande' },
+  date_promise:  { bg: '#fef9c3', border: '#f5c400', label: 'Livraison promise' },
   date_rappel_1: { bg: '#fee2e2', border: '#ef4444', label: 'Rappel 1' },
   date_rappel_2: { bg: '#fce7f3', border: '#ec4899', label: 'Rappel 2' },
 }
@@ -36,7 +36,7 @@ export default function Calendrier() {
   const router = useRouter()
 
   useEffect(() => {
-    supabase.from('suivi_clients').select('*').neq('statut', 'annulé').then(({ data }) => setDossiers(data || []))
+    supabase.from('suivi_clients').select('*').not('statut', 'in', '("livré","annulé")').then(({ data }) => setDossiers(data || []))
   }, [])
 
   const joursArray = Array.from({ length: 7 }, (_, i) => addDays(semaine, i))

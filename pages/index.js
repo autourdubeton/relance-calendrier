@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { supabase } from '../lib/supabase'
 
-const STATUTS = ['en cours', 'terminé', 'annulé']
+const STATUTS = ['en attente', 'livré', 'annulé']
 
 export default function Home() {
   const [clients, setClients] = useState([])
@@ -15,7 +15,7 @@ export default function Home() {
     date_rappel_1: '',
     date_rappel_2: '',
     notes: '',
-    statut: 'en cours'
+    statut: 'en attente'
   })
   const [saving, setSaving] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -50,7 +50,7 @@ export default function Home() {
       await supabase.from('suivi_clients').insert([payload])
     }
 
-    setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' })
+    setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en attente' })
     setSaving(false)
     fetchClients()
   }
@@ -65,7 +65,7 @@ export default function Home() {
       date_rappel_1: client.date_rappel_1 || '',
       date_rappel_2: client.date_rappel_2 || '',
       notes: client.notes || '',
-      statut: client.statut || 'en cours'
+      statut: client.statut || 'en attente'
     })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -91,27 +91,27 @@ export default function Home() {
       <div style={{ padding: '0 3rem 3rem' }}>
 
       <form onSubmit={handleSubmit} style={{ background: '#f0f3fa', border: '2px solid #1a2b5e', padding: '1.5rem', borderRadius: 8, marginBottom: '2rem' }}>
-        <h2 style={{ marginTop: 0, fontSize: '1.1rem', color: '#1a2b5e' }}>{editingId ? 'Modifier' : 'Nouveau client'}</h2>
+        <h2 style={{ marginTop: 0, fontSize: '1.1rem', color: '#1a2b5e' }}>{editingId ? 'Modifier la commande' : 'Nouvelle commande'}</h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div style={{ gridColumn: '1 / -1' }}>
-            <label>Sujet *</label><br />
+            <label>Commande *</label><br />
             <input required value={form.sujet} onChange={e => setForm({ ...form, sujet: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div style={{ gridColumn: '1 / -1' }}>
-            <label>Email contact <span style={{ color: '#999', fontWeight: 'normal', fontSize: '0.85rem' }}>(les rappels seront envoyés à cette adresse)</span></label><br />
+            <label>Email fournisseur <span style={{ color: '#999', fontWeight: 'normal', fontSize: '0.85rem' }}>(les rappels seront envoyés à cette adresse)</span></label><br />
             <input type="email" value={form.email_client} onChange={e => setForm({ ...form, email_client: e.target.value })}
-              placeholder="client@exemple.com"
+              placeholder="fournisseur@exemple.com"
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div>
-            <label>Date de début</label><br />
+            <label>Date de commande</label><br />
             <input type="date" value={form.date_debut} onChange={e => setForm({ ...form, date_debut: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div>
-            <label>Date promise</label><br />
+            <label>Date de livraison promise</label><br />
             <input type="date" value={form.date_promise} onChange={e => setForm({ ...form, date_promise: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
@@ -145,7 +145,7 @@ export default function Home() {
             {saving ? 'Enregistrement...' : editingId ? 'Mettre à jour' : 'Ajouter'}
           </button>
           {editingId && (
-            <button type="button" onClick={() => { setEditingId(null); setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en cours' }) }}
+            <button type="button" onClick={() => { setEditingId(null); setForm({ sujet: '', email_client: '', date_debut: '', date_promise: '', date_rappel_1: '', date_rappel_2: '', notes: '', statut: 'en attente' }) }}
               style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: 4, cursor: 'pointer' }}>
               Annuler
             </button>
@@ -157,10 +157,10 @@ export default function Home() {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#1a2b5e', color: '#f5c400' }}>
-              <th style={th}>Sujet</th>
-              <th style={th}>Email contact</th>
-              <th style={th}>Début</th>
-              <th style={th}>Date promise</th>
+              <th style={th}>Commande</th>
+              <th style={th}>Email fournisseur</th>
+              <th style={th}>Date commande</th>
+              <th style={th}>Livraison promise</th>
               <th style={th}>Rappel 1</th>
               <th style={th}>Rappel 2</th>
               <th style={th}>Statut</th>
@@ -169,7 +169,7 @@ export default function Home() {
           </thead>
           <tbody>
             {clients.length === 0 && (
-              <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>Aucun client</td></tr>
+              <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>Aucune commande</td></tr>
             )}
             {clients.map((c, i) => (
               <tr key={c.id} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
@@ -180,7 +180,7 @@ export default function Home() {
                 <td style={td}>{formatDate(c.date_rappel_1)}</td>
                 <td style={td}>{formatDate(c.date_rappel_2)}</td>
                 <td style={td}>
-                  <span style={{ padding: '2px 8px', borderRadius: 12, fontSize: '0.8rem', background: c.statut === 'terminé' ? '#d4edda' : c.statut === 'annulé' ? '#f8d7da' : '#fff3cd' }}>
+                  <span style={{ padding: '2px 8px', borderRadius: 12, fontSize: '0.8rem', background: c.statut === 'livré' ? '#d4edda' : c.statut === 'annulé' ? '#f8d7da' : '#fff3cd' }}>
                     {c.statut}
                   </span>
                 </td>
