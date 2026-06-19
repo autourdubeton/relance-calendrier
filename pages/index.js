@@ -82,6 +82,7 @@ export default function Home() {
         <img src="/logo-rond.png" alt="ATDB" style={{ height: 100, width: 100, objectFit: 'contain', marginTop: -15, marginBottom: -15 }} />
         <h1 style={{ position: 'absolute', left: 0, right: 0, textAlign: 'center', color: '#f5c400', fontSize: '2rem', fontWeight: 700, margin: 0, pointerEvents: 'none' }}>Suivi Livraison</h1>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', zIndex: 1 }}>
+          <button onClick={() => router.push('/calendrier')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Calendrier">📅</button>
           <button onClick={() => router.push('/contacts')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Contacts">👥</button>
           <button onClick={() => router.push('/archives')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Archives">🗄️</button>
         </div>
