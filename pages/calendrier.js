@@ -108,8 +108,8 @@ export default function Calendrier() {
                 border: estAujourdhui ? '2px solid #f5c400' : '1px solid #ddd',
                 borderRadius: 8,
                 background: estAujourdhui ? '#fffbea' : estWeekend ? '#f9f9f9' : '#fff',
-                minHeight: 160,
-                padding: '0.5rem',
+                minHeight: 'calc(100vh - 320px)',
+                padding: '0.75rem',
               }}>
                 {/* En-tête du jour */}
                 <div style={{
