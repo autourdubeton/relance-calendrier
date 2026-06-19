@@ -75,7 +75,7 @@ export default function Home() {
   }
 
   return (
-    <div style={{ fontFamily: 'sans-serif', maxWidth: 900, margin: '0 auto', padding: '2rem 1rem' }}>
+    <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '2rem 3rem' }}>
       <h1 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Suivi Clients — Autour du Béton</h1>
 
       <form onSubmit={handleSubmit} style={{ background: '#f5f5f5', padding: '1.5rem', borderRadius: 8, marginBottom: '2rem' }}>
