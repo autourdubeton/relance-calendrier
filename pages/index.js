@@ -75,11 +75,15 @@ export default function Home() {
   }
 
   return (
-    <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '2rem 3rem' }}>
-      <h1 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Suivi Clients — Autour du Béton</h1>
+    <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
+      <div style={{ background: '#1a2b5e', padding: '1.2rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <h1 style={{ fontSize: '1.4rem', margin: 0, color: '#f5c400', fontWeight: 700, letterSpacing: 1 }}>Suivi Clients — Autour du Béton</h1>
+      </div>
 
-      <form onSubmit={handleSubmit} style={{ background: '#f5f5f5', padding: '1.5rem', borderRadius: 8, marginBottom: '2rem' }}>
-        <h2 style={{ marginTop: 0, fontSize: '1.1rem' }}>{editingId ? 'Modifier' : 'Nouveau client'}</h2>
+      <div style={{ padding: '0 3rem 3rem' }}>
+
+      <form onSubmit={handleSubmit} style={{ background: '#f0f3fa', border: '2px solid #1a2b5e', padding: '1.5rem', borderRadius: 8, marginBottom: '2rem' }}>
+        <h2 style={{ marginTop: 0, fontSize: '1.1rem', color: '#1a2b5e' }}>{editingId ? 'Modifier' : 'Nouveau client'}</h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
           <div style={{ gridColumn: '1 / -1' }}>
@@ -129,7 +133,7 @@ export default function Home() {
 
         <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
           <button type="submit" disabled={saving}
-            style={{ padding: '0.5rem 1.5rem', background: '#1a1a1a', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+            style={{ padding: '0.5rem 1.5rem', background: '#f5c400', color: '#1a2b5e', border: 'none', borderRadius: 4, cursor: 'pointer', fontWeight: 700 }}>
             {saving ? 'Enregistrement...' : editingId ? 'Mettre à jour' : 'Ajouter'}
           </button>
           {editingId && (
@@ -144,7 +148,7 @@ export default function Home() {
       {loading ? <p>Chargement...</p> : (
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#1a1a1a', color: '#fff' }}>
+            <tr style={{ background: '#1a2b5e', color: '#f5c400' }}>
               <th style={th}>Sujet</th>
               <th style={th}>Email client</th>
               <th style={th}>Début</th>
@@ -181,14 +185,15 @@ export default function Home() {
           </tbody>
         </table>
       )}
+      </div>
     </div>
   )
 }
 
 const th = { padding: '0.75rem 1rem', textAlign: 'left', fontWeight: 600 }
 const td = { padding: '0.75rem 1rem', borderBottom: '1px solid #eee', verticalAlign: 'middle' }
-const btnEdit = { marginRight: 4, padding: '3px 10px', cursor: 'pointer', border: '1px solid #ccc', borderRadius: 4, background: '#fff', fontSize: '0.8rem' }
-const btnDelete = { padding: '3px 10px', cursor: 'pointer', border: '1px solid #ffcdd2', borderRadius: 4, background: '#fff5f5', color: '#c62828', fontSize: '0.8rem' }
+const btnEdit = { marginRight: 4, padding: '4px 10px', cursor: 'pointer', border: '1px solid #1a2b5e', borderRadius: 4, background: '#fff', fontSize: '1rem' }
+const btnDelete = { padding: '4px 10px', cursor: 'pointer', border: '1px solid #ffcdd2', borderRadius: 4, background: '#fff5f5', fontSize: '1rem' }
 
 function formatDate(d) {
   if (!d) return '—'
