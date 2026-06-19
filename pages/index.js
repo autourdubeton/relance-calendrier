@@ -78,7 +78,7 @@ export default function Home() {
     <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
       <div style={{ background: '#1a2b5e', padding: '0.5rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem', overflow: 'visible' }}>
         <img src="/logo-rond.png" alt="ATDB" style={{ height: 100, width: 100, objectFit: 'contain', marginTop: -15, marginBottom: -15 }} />
-        <span style={{ color: '#f5c400', fontSize: '1.5rem', fontWeight: 700, letterSpacing: 1 }}>Suivi Clients</span>
+        <span style={{ color: '#f5c400', fontSize: '1.5rem', fontWeight: 700, letterSpacing: 1, flex: 1, textAlign: 'center' }}>Suivi Livraison</span>
       </div>
 
       <div style={{ padding: '0 3rem 3rem' }}>
@@ -93,7 +93,7 @@ export default function Home() {
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div style={{ gridColumn: '1 / -1' }}>
-            <label>Email client <span style={{ color: '#999', fontWeight: 'normal', fontSize: '0.85rem' }}>(les rappels seront envoyés à cette adresse)</span></label><br />
+            <label>Email contact <span style={{ color: '#999', fontWeight: 'normal', fontSize: '0.85rem' }}>(les rappels seront envoyés à cette adresse)</span></label><br />
             <input type="email" value={form.email_client} onChange={e => setForm({ ...form, email_client: e.target.value })}
               placeholder="client@exemple.com"
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
@@ -151,7 +151,7 @@ export default function Home() {
           <thead>
             <tr style={{ background: '#1a2b5e', color: '#f5c400' }}>
               <th style={th}>Sujet</th>
-              <th style={th}>Email client</th>
+              <th style={th}>Email contact</th>
               <th style={th}>Début</th>
               <th style={th}>Date promise</th>
               <th style={th}>Rappel 1</th>
