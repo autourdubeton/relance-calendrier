@@ -76,9 +76,9 @@ export default function Home() {
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
-      <div style={{ background: '#1a2b5e', padding: '1rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <img src="/logo-lettrage.png" alt="Au Tour du Béton" style={{ height: 50 }} />
+      <div style={{ background: '#1a2b5e', padding: '1rem 3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <img src="/logo-rond.png" alt="ATDB" style={{ height: 60 }} />
+        <span style={{ color: '#f5c400', fontSize: '1.5rem', fontWeight: 700, letterSpacing: 1 }}>Suivi Clients</span>
       </div>
 
       <div style={{ padding: '0 3rem 3rem' }}>
