@@ -154,12 +154,12 @@ export default function Home() {
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div>
-            <label>Rappel 1</label><br />
+            <label>Mail de rappel 1</label><br />
             <input type="date" value={form.date_rappel_1} onChange={e => setForm({ ...form, date_rappel_1: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
           <div>
-            <label>Rappel 2</label><br />
+            <label>Mail de rappel 2</label><br />
             <input type="date" value={form.date_rappel_2} onChange={e => setForm({ ...form, date_rappel_2: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
@@ -224,8 +224,8 @@ export default function Home() {
               <th style={th}>Email fournisseur</th>
               <th style={th}>Date commande</th>
               <th style={th}>Livraison promise</th>
-              <th style={th}>Rappel 1</th>
-              <th style={th}>Rappel 2</th>
+              <th style={th}>Mail de rappel 1</th>
+              <th style={th}>Mail de rappel 2</th>
               <th style={th}>Statut</th>
               <th style={th}>Actions</th>
             </tr>
