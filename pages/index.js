@@ -32,6 +32,7 @@ export default function Home() {
     const { data } = await supabase
       .from('suivi_clients')
       .select('*')
+      .neq('statut', 'livré')
       .order('created_at', { ascending: false })
     setClients(data || [])
     setLoading(false)
