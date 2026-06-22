@@ -71,8 +71,13 @@ export default function Home() {
   }
 
   async function deleteClient(id) {
-    if (!confirm('Supprimer ce client ?')) return
+    if (!confirm('Supprimer cette commande ?')) return
     await supabase.from('suivi_clients').delete().eq('id', id)
+    fetchClients()
+  }
+
+  async function marquerLivre(id) {
+    await supabase.from('suivi_clients').update({ statut: 'livré' }).eq('id', id)
     fetchClients()
   }
 
@@ -186,7 +191,7 @@ export default function Home() {
                 </td>
                 <td style={td}>
                   <button onClick={() => startEdit(c)} style={btnEdit} title="Modifier">✏️</button>
-                  <button onClick={() => deleteClient(c.id)} style={btnDelete} title="Supprimer">🗑️</button>
+                  <button onClick={() => marquerLivre(c.id)} style={btnLivre} title="Marquer comme livré">✓</button>
                 </td>
               </tr>
             ))}
@@ -201,7 +206,7 @@ export default function Home() {
 const th = { padding: '0.75rem 1rem', textAlign: 'left', fontWeight: 600 }
 const td = { padding: '0.75rem 1rem', borderBottom: '1px solid #eee', verticalAlign: 'middle' }
 const btnEdit = { marginRight: 4, padding: '4px 10px', cursor: 'pointer', border: '1px solid #1a2b5e', borderRadius: 4, background: '#fff', fontSize: '1rem' }
-const btnDelete = { padding: '4px 10px', cursor: 'pointer', border: '1px solid #ffcdd2', borderRadius: 4, background: '#fff5f5', fontSize: '1rem' }
+const btnLivre = { padding: '4px 12px', cursor: 'pointer', border: '1px solid #28a745', borderRadius: 4, background: '#d4edda', color: '#155724', fontWeight: 700, fontSize: '1rem' }
 
 function formatDate(d) {
   if (!d) return '—'
