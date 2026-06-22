@@ -70,7 +70,7 @@ export default async function handler(req, res) {
             </div>
 
             <p>Bonjour,</p>
-            <p>Nous revenons vers vous concernant la commande suivante :</p>
+            <p>Nous revenons vers vous concernant la commande suivante et souhaitons confirmer que tout se déroule comme prévu.</p>
             <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
               <p style="margin: 0 0 0.5rem;"><strong>Commande :</strong> ${client.sujet}</p>
               ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Date de commande :</strong> ${formatDate(client.date_debut)}</p>` : ''}
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
             <hr style="margin: 2rem 0; border: none; border-top: 2px solid #eee;">
 
             <p style="color: #555;">Hello,</p>
-            <p style="color: #555;">We are following up regarding the following order:</p>
+            <p style="color: #555;">We are following up regarding the following order and would like to confirm that everything is proceeding as planned.</p>
             <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
               <p style="margin: 0 0 0.5rem; color: #555;"><strong>Order:</strong> ${client.sujet}</p>
               ${client.date_debut ? `<p style="margin: 0 0 0.5rem; color: #555;"><strong>Order date:</strong> ${formatDate(client.date_debut)}</p>` : ''}
