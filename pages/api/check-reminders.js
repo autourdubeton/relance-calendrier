@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         from: `Au Tour Du Béton <${process.env.OVH_EMAIL}>`,
         to: destinataire,
         replyTo: process.env.ADMIN_EMAIL,
-        subject: `Reminder — ${client.sujet}`,
+        subject: `Rappel / Reminder — ${client.sujet}`,
         html: `
           <!DOCTYPE html>
           <html>
@@ -68,18 +68,33 @@ export default async function handler(req, res) {
             <div style="border-bottom: 3px solid #1a1a1a; padding-bottom: 1rem; margin-bottom: 2rem;">
               <h1 style="margin: 0; font-size: 1.4rem;">Au Tour Du Béton</h1>
             </div>
-            <p>Hello,</p>
-            <p>We are following up regarding the following order:</p>
+
+            <p>Bonjour,</p>
+            <p>Nous revenons vers vous concernant la commande suivante :</p>
             <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
-              <p style="margin: 0 0 0.5rem;"><strong>Order:</strong> ${client.sujet}</p>
-              ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Order date:</strong> ${formatDate(client.date_debut)}</p>` : ''}
-              ${client.date_promise ? `<p style="margin: 0 0 0.5rem;"><strong>Promised delivery date:</strong> ${formatDate(client.date_promise)}</p>` : ''}
-              ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes:</strong> ${client.notes}</p>` : ''}
+              <p style="margin: 0 0 0.5rem;"><strong>Commande :</strong> ${client.sujet}</p>
+              ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Date de commande :</strong> ${formatDate(client.date_debut)}</p>` : ''}
+              ${client.date_promise ? `<p style="margin: 0 0 0.5rem;"><strong>Date de livraison promise :</strong> ${formatDate(client.date_promise)}</p>` : ''}
+              ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes :</strong> ${client.notes}</p>` : ''}
             </div>
-            <p>Please do not hesitate to contact us if you have any questions.</p>
-            <p>Best regards,<br><strong>Au Tour Du Béton</strong></p>
+            <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+            <p>Cordialement,<br><strong>Au Tour Du Béton</strong></p>
+
+            <hr style="margin: 2rem 0; border: none; border-top: 2px solid #eee;">
+
+            <p style="color: #555;">Hello,</p>
+            <p style="color: #555;">We are following up regarding the following order:</p>
+            <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+              <p style="margin: 0 0 0.5rem; color: #555;"><strong>Order:</strong> ${client.sujet}</p>
+              ${client.date_debut ? `<p style="margin: 0 0 0.5rem; color: #555;"><strong>Order date:</strong> ${formatDate(client.date_debut)}</p>` : ''}
+              ${client.date_promise ? `<p style="margin: 0 0 0.5rem; color: #555;"><strong>Promised delivery date:</strong> ${formatDate(client.date_promise)}</p>` : ''}
+              ${client.notes ? `<p style="margin: 0.5rem 0 0; color: #555;"><strong>Notes:</strong> ${client.notes}</p>` : ''}
+            </div>
+            <p style="color: #555;">Please do not hesitate to contact us if you have any questions.</p>
+            <p style="color: #555;">Best regards,<br><strong>Au Tour Du Béton</strong></p>
+
             <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
-            <p style="color: #999; font-size: 0.75rem;">Automatic reminder #${rappelNum} — ${today}</p>
+            <p style="color: #999; font-size: 0.75rem;">Rappel automatique n°${rappelNum} / Automatic reminder #${rappelNum} — ${today}</p>
           </body>
           </html>
         `
