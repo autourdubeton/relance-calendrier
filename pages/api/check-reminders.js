@@ -69,19 +69,6 @@ export default async function handler(req, res) {
               <h1 style="margin: 0; font-size: 1.4rem;">Au Tour Du Béton</h1>
             </div>
 
-            <p>Bonjour,</p>
-            <p>Nous revenons vers vous concernant la commande suivante et souhaitons confirmer que tout se déroule comme prévu.</p>
-            <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
-              <p style="margin: 0 0 0.5rem;"><strong>Commande :</strong> ${client.sujet}</p>
-              ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Date de commande :</strong> ${formatDate(client.date_debut)}</p>` : ''}
-              ${client.date_promise ? `<p style="margin: 0 0 0.5rem;"><strong>Date de livraison promise :</strong> ${formatDate(client.date_promise)}</p>` : ''}
-              ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes :</strong> ${client.notes}</p>` : ''}
-            </div>
-            <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
-            <p>Cordialement,<br><strong>Au Tour Du Béton</strong></p>
-
-            <hr style="margin: 2rem 0; border: none; border-top: 2px solid #eee;">
-
             <p style="color: #555;">Hello,</p>
             <p style="color: #555;">We are following up regarding the following order and would like to confirm that everything is proceeding as planned.</p>
             <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
@@ -92,6 +79,19 @@ export default async function handler(req, res) {
             </div>
             <p style="color: #555;">Please do not hesitate to contact us if you have any questions.</p>
             <p style="color: #555;">Best regards,<br><strong>Au Tour Du Béton</strong></p>
+
+            <hr style="margin: 2rem 0; border: none; border-top: 2px solid #eee;">
+
+            <p>Bonjour,</p>
+            <p>Nous revenons vers vous concernant la commande suivante et souhaitons confirmer que tout se déroule comme prévu.</p>
+            <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+              <p style="margin: 0 0 0.5rem;"><strong>Commande :</strong> ${client.sujet}</p>
+              ${client.date_debut ? `<p style="margin: 0 0 0.5rem;"><strong>Date de commande :</strong> ${formatDate(client.date_debut)}</p>` : ''}
+              ${client.date_promise ? `<p style="margin: 0 0 0.5rem;"><strong>Date de livraison promise :</strong> ${formatDate(client.date_promise)}</p>` : ''}
+              ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes :</strong> ${client.notes}</p>` : ''}
+            </div>
+            <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
+            <p>Cordialement,<br><strong>Au Tour Du Béton</strong></p>
 
             <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
             <p style="color: #999; font-size: 0.75rem;">Rappel automatique n°${rappelNum} / Automatic reminder #${rappelNum} — ${today}</p>
