@@ -7,10 +7,12 @@ export default async function handler(req, res) {
     process.env.SUPABASE_SERVICE_ROLE_KEY
   )
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'ssl0.ovh.net',
+    port: 465,
+    secure: true,
     auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD,
+      user: process.env.OVH_EMAIL,
+      pass: process.env.OVH_PASSWORD,
     },
   })
 
@@ -55,7 +57,7 @@ export default async function handler(req, res) {
 
     try {
       await transporter.sendMail({
-        from: `Autour du Béton <${process.env.GMAIL_USER}>`,
+        from: `Autour du Béton <${process.env.OVH_EMAIL}>`,
         to: destinataire,
         replyTo: process.env.ADMIN_EMAIL,
         subject: `Rappel — ${client.sujet}`,
