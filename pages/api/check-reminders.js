@@ -57,7 +57,7 @@ export default async function handler(req, res) {
 
     try {
       await transporter.sendMail({
-        from: `Autour du Béton <${process.env.OVH_EMAIL}>`,
+        from: `Au Tour Du Béton <${process.env.OVH_EMAIL}>`,
         to: destinataire,
         replyTo: process.env.ADMIN_EMAIL,
         subject: `Rappel — ${client.sujet}`,
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
           <html>
           <body style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 2rem; color: #333;">
             <div style="border-bottom: 3px solid #1a1a1a; padding-bottom: 1rem; margin-bottom: 2rem;">
-              <h1 style="margin: 0; font-size: 1.4rem;">Autour du Béton</h1>
+              <h1 style="margin: 0; font-size: 1.4rem;">Au Tour Du Béton</h1>
             </div>
             <p>Bonjour,</p>
             <p>Nous revenons vers vous concernant le dossier suivant :</p>
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
               ${client.notes ? `<p style="margin: 0.5rem 0 0;"><strong>Notes :</strong> ${client.notes}</p>` : ''}
             </div>
             <p>N'hésitez pas à nous contacter si vous avez des questions.</p>
-            <p>Cordialement,<br><strong>L'équipe Autour du Béton</strong></p>
+            <p>Cordialement,<br><strong>L'équipe Au Tour Du Béton</strong></p>
             <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;">
             <p style="color: #999; font-size: 0.75rem;">Rappel automatique n°${rappelNum} — ${today}</p>
           </body>
