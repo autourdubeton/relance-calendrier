@@ -169,13 +169,6 @@ export default function Home() {
             <input type="date" value={form.date_rappel_2} onChange={e => setForm({ ...form, date_rappel_2: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }} />
           </div>
-          <div>
-            <label>Statut</label><br />
-            <select value={form.statut} onChange={e => setForm({ ...form, statut: e.target.value })}
-              style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box', marginTop: 4 }}>
-              {STATUTS.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-          </div>
           <div style={{ gridColumn: '1 / -1' }}>
             <label>Notes</label><br />
             <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })}
@@ -205,14 +198,6 @@ export default function Home() {
           onChange={e => setRecherche(e.target.value)}
           style={{ flex: 1, padding: '0.6rem 1rem', borderRadius: 6, border: '2px solid #1a2b5e', fontSize: '1rem' }}
         />
-        <select
-          value={filtreStatut}
-          onChange={e => setFiltreStatut(e.target.value)}
-          style={{ padding: '0.6rem 1rem', borderRadius: 6, border: '2px solid #1a2b5e', fontSize: '1rem', minWidth: 150 }}
-        >
-          <option value="">Tous les statuts</option>
-          {STATUTS.map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
         <span style={{ color: '#999', fontSize: '0.9rem', whiteSpace: 'nowrap' }}>{clientsFiltres.length} commande(s)</span>
         {(recherche || filtreStatut) && (
           <button onClick={() => { setRecherche(''); setFiltreStatut('') }}
@@ -232,7 +217,6 @@ export default function Home() {
               <th style={th}>Livraison promise</th>
               <th style={th}>Mail de rappel 1</th>
               <th style={th}>Mail de rappel 2</th>
-              <th style={th}>Statut</th>
               <th style={th}>Actions</th>
             </tr>
           </thead>
@@ -248,11 +232,6 @@ export default function Home() {
                 <td style={td}>{formatDate(c.date_promise)}</td>
                 <td style={td}>{formatDate(c.date_rappel_1)}</td>
                 <td style={td}>{formatDate(c.date_rappel_2)}</td>
-                <td style={td}>
-                  <span style={{ padding: '2px 8px', borderRadius: 12, fontSize: '0.8rem', background: c.statut === 'livré' ? '#d4edda' : c.statut === 'annulé' ? '#f8d7da' : '#fff3cd' }}>
-                    {c.statut}
-                  </span>
-                </td>
                 <td style={td}>
                   <button onClick={() => startEdit(c)} style={btnEdit} title="Modifier">✏️</button>
                   <button onClick={() => marquerLivre(c.id)} style={btnLivre} title="Marquer comme livré">✓</button>
