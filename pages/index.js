@@ -19,6 +19,8 @@ export default function Home() {
   })
   const [saving, setSaving] = useState(false)
   const [editingId, setEditingId] = useState(null)
+  const [recherche, setRecherche] = useState('')
+  const [filtreStatut, setFiltreStatut] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -70,16 +72,35 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  async function deleteClient(id) {
-    if (!confirm('Supprimer cette commande ?')) return
-    await supabase.from('suivi_clients').delete().eq('id', id)
-    fetchClients()
-  }
-
   async function marquerLivre(id) {
     await supabase.from('suivi_clients').update({ statut: 'livré' }).eq('id', id)
     fetchClients()
   }
+
+  // Calcul du badge calendrier : rappels cette semaine
+  const aujourdhui = new Date()
+  aujourdhui.setHours(0, 0, 0, 0)
+  const finSemaine = new Date(aujourdhui)
+  finSemaine.setDate(finSemaine.getDate() + 7)
+  const rappelsSemaine = clients.filter(c => {
+    if (c.statut !== 'en attente') return false
+    for (const champ of ['date_rappel_1', 'date_rappel_2']) {
+      if (c[champ]) {
+        const d = new Date(c[champ])
+        if (d >= aujourdhui && d <= finSemaine) return true
+      }
+    }
+    return false
+  }).length
+
+  // Filtres
+  const clientsFiltres = clients.filter(c => {
+    const matchRecherche = !recherche ||
+      c.sujet?.toLowerCase().includes(recherche.toLowerCase()) ||
+      c.email_client?.toLowerCase().includes(recherche.toLowerCase())
+    const matchStatut = !filtreStatut || c.statut === filtreStatut
+    return matchRecherche && matchStatut
+  })
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: 1400, margin: '0 auto', padding: '0' }}>
@@ -87,7 +108,19 @@ export default function Home() {
         <img src="/logo-rond.png" alt="ATDB" style={{ height: 100, width: 100, objectFit: 'contain', marginTop: -15, marginBottom: -15 }} />
         <h1 style={{ position: 'absolute', left: 0, right: 0, textAlign: 'center', color: '#f5c400', fontSize: '2rem', fontWeight: 700, margin: 0, pointerEvents: 'none' }}>Suivi Livraison</h1>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', zIndex: 1 }}>
-          <button onClick={() => router.push('/calendrier')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Calendrier">📅</button>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <button onClick={() => router.push('/calendrier')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Calendrier">📅</button>
+            {rappelsSemaine > 0 && (
+              <span style={{
+                position: 'absolute', top: -4, right: -4,
+                background: '#e74c3c', color: '#fff',
+                borderRadius: '50%', width: 18, height: 18,
+                fontSize: '0.7rem', fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                pointerEvents: 'none'
+              }}>{rappelsSemaine}</span>
+            )}
+          </div>
           <button onClick={() => router.push('/contacts')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Contacts">👥</button>
           <button onClick={() => router.push('/archives')} style={{ background: 'none', border: 'none', color: '#f5c400', fontSize: '1.8rem', cursor: 'pointer' }} title="Archives">🗄️</button>
         </div>
@@ -158,6 +191,31 @@ export default function Home() {
         </div>
       </form>
 
+      {/* Filtres */}
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', alignItems: 'center' }}>
+        <input
+          placeholder="🔍 Rechercher une commande ou un email..."
+          value={recherche}
+          onChange={e => setRecherche(e.target.value)}
+          style={{ flex: 1, padding: '0.6rem 1rem', borderRadius: 6, border: '2px solid #1a2b5e', fontSize: '1rem' }}
+        />
+        <select
+          value={filtreStatut}
+          onChange={e => setFiltreStatut(e.target.value)}
+          style={{ padding: '0.6rem 1rem', borderRadius: 6, border: '2px solid #1a2b5e', fontSize: '1rem', minWidth: 150 }}
+        >
+          <option value="">Tous les statuts</option>
+          {STATUTS.map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
+        <span style={{ color: '#999', fontSize: '0.9rem', whiteSpace: 'nowrap' }}>{clientsFiltres.length} commande(s)</span>
+        {(recherche || filtreStatut) && (
+          <button onClick={() => { setRecherche(''); setFiltreStatut('') }}
+            style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: 6, cursor: 'pointer', background: '#fff', fontSize: '0.9rem' }}>
+            Effacer
+          </button>
+        )}
+      </div>
+
       {loading ? <p>Chargement...</p> : (
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -173,10 +231,10 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {clients.length === 0 && (
-              <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>Aucune commande</td></tr>
+            {clientsFiltres.length === 0 && (
+              <tr><td colSpan={8} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>Aucune commande</td></tr>
             )}
-            {clients.map((c, i) => (
+            {clientsFiltres.map((c, i) => (
               <tr key={c.id} style={{ background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
                 <td style={td}>{c.sujet}</td>
                 <td style={td}>{c.email_client || <span style={{ color: '#bbb' }}>—</span>}</td>
