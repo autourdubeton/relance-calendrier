@@ -191,6 +191,11 @@ export default function Home() {
         </div>
       </form>
 
+      {/* Info envoi automatique */}
+      <div style={{ background: '#f0f3fa', border: '1px solid #1a2b5e', borderRadius: 6, padding: '0.6rem 1rem', marginBottom: '1rem', fontSize: '0.85rem', color: '#1a2b5e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        📧 Les mails de rappel sont envoyés automatiquement chaque matin à 8h aux fournisseurs concernés.
+      </div>
+
       {/* Filtres */}
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', alignItems: 'center' }}>
         <input
